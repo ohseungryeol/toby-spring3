@@ -10,8 +10,8 @@ import static java.lang.System.getenv;
 public class UserDAO { // 사용자 정보를 DB에 넣고 관리하는 클래스
     ConnectionMaker connectionMaker;
 
-    public UserDAO() {
-        this.connectionMaker = new DConnectionMaker();
+    public UserDAO(ConnectionMaker connectionMaker) {
+        this.connectionMaker = connectionMaker;
     }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
@@ -42,12 +42,13 @@ public class UserDAO { // 사용자 정보를 DB에 넣고 관리하는 클래�
     }*/
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        ConnectionMaker cm  = new DConnectionMaker();
         User user3 = new User();
-        user3.setId("12");
-        user3.setName("형형");
-        user3.setPassword("23123");
+        user3.setId("7");
+        user3.setName("형77형");
+        user3.setPassword("2773123");
 
-        UserDAO userDAO = new UserDAO();
+        UserDAO userDAO = new UserDAO(cm);
         userDAO.add(user3);
 
     }
