@@ -8,24 +8,15 @@ import java.util.Map;
 import static java.lang.System.getenv;
 
 public class UserDAO { // 사용자 정보를 DB에 넣고 관리하는 클래스
-    public Connection getConnection() throws ClassNotFoundException, SQLException {
-        Map<String, String> env = getenv();
-        String dbHost = env.get("DB_HOST");
-        String dbUser = env.get("DB_USER");
-        String dbPassword = env.get("DB_PASSWORD");
+    ConnectionMaker connectionMaker;
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection(
-                dbHost,
-                dbUser,
-                dbPassword
-        );
-
-        return con;
+    public UserDAO() {
+        this.connectionMaker = new DConnectionMaker();
     }
+
     public void add(User user) throws ClassNotFoundException, SQLException {
 
-        Connection con = getConnection();
+        Connection con = connectionMaker.makeConnection();
         PreparedStatement pstmt = con.prepareStatement("insert into users(id, name, password) values(?, ?, ?)");
         pstmt.setString(1, user.getId()); //1열
         pstmt.setString(2, user.getName()); //2열
@@ -37,7 +28,7 @@ public class UserDAO { // 사용자 정보를 DB에 넣고 관리하는 클래�
 
     }
 
-    public User get(String id) throws ClassNotFoundException, SQLException {
+    /*public User get(String id) throws ClassNotFoundException, SQLException {
         Connection con = getConnection();
 
         PreparedStatement pstmt = con.prepareStatement("select id, name, password from users where id = ?");        pstmt.setString(1,id);
@@ -48,17 +39,16 @@ public class UserDAO { // 사용자 정보를 DB에 넣고 관리하는 클래�
         user.setName(rs.getString(2)); //2열
         user.setPassword(rs.getString(3)); //3열
         return user;
-    }
+    }*/
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         User user3 = new User();
-        user3.setId("3");
-        user3.setName("수진");
-        user3.setPassword("123123");
+        user3.setId("12");
+        user3.setName("형형");
+        user3.setPassword("23123");
 
         UserDAO userDAO = new UserDAO();
         userDAO.add(user3);
-
 
     }
 }
